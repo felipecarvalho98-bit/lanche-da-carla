@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Admin - Lanche da Carla</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <header class="topo">
+    <div class="topo-conteudo">
+      <p class="subtitulo">Lanche da Carla</p>
+      <h1>Admin</h1>
+      <p class="descricao">Acompanhe os pedidos pelo celular</p>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section id="loginAdmin" class="login-admin">
+        <h2>Acesso do administrador</h2>
+
+        <label for="senhaAdmin">Digite a senha</label>
+        <input type="password" id="senhaAdmin" placeholder="Senha do admin" />
+
+        <button class="btn-confirmar" onclick="entrarAdmin()">
+            Entrar
+        </button>
+
+        <p id="mensagemLogin" class="mensagem-cliente"></p>
+    </section>
+
+    <section id="painelAdmin" class="admin-area escondido">
+<div class="admin-cabecalho">
+    <h2>Pedidos recebidos</h2>
+
+    <div class="admin-botoes">
+        <button class="btn-atualizar" onclick="carregarPedidos()">
+            Atualizar
+        </button>
+
+        <button class="btn-sair-admin" onclick="sairAdmin()">
+            Sair
+        </button>
+    </div>
+</div>
+
+      <p id="mensagemAdmin" class="mensagem-cliente">
+        Carregando pedidos...
+      </p>
+
+        <div class="filtros-status">
+            <button onclick="filtrarPedidos('Todos')">Todos</button>
+            <button onclick="filtrarPedidos('Novo')">Novos</button>
+            <button onclick="filtrarPedidos('Preparando')">Preparando</button>
+            <button onclick="filtrarPedidos('Saiu para entrega')">Entrega</button>
+            <button onclick="filtrarPedidos('Concluído')">Concluídos</button>
+            <button onclick="filtrarPedidos('Cancelado')">Cancelados</button>
+        </div>
+
+      <div id="listaPedidosAdmin" class="lista-pedidos-admin"></div>
+    </section>
+
+  </main>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Lanche da Carla - Cardápio Online</title>
+
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+    <header class="topo">
+        <div class="topo-conteudo">
+        <p class="subtitulo">Lanche da Carla</p>
+        <h1>Cardápio Online</h1>
+        <p class="descricao">Escolha seu lanche e faça seu pedido pelo celular</p>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <section class="banner">
+        <h2>🍴 Escolha o seu lanche</h2>
+        <p>Entrega grátis no bairro</p>
+        </section>
+
+        <section class="categorias">
+        <button onclick="filtrarCategoria('todos')">Todos</button>
+        <button onclick="filtrarCategoria('pasteis')">Pastéis</button>
+        <button onclick="filtrarCategoria('pratinhos')">Pratinhos</button>
+        <button onclick="filtrarCategoria('bebidas')">Bebidas</button>
+        </section>
+
+        <section class="produtos-area">
+        <h2>Produtos</h2>
+        <div id="listaProdutos" class="lista-produtos"></div>
+        </section>
+
+        <section class="carrinho-area">
+        <h2>🛒 Carrinho</h2>
+
+        <div id="itensCarrinho" class="itens-carrinho">
+            <p class="carrinho-vazio">Seu carrinho está vazio.</p>
+        </div>
+
+        <div class="resumo-carrinho">
+            <p>Subtotal: <strong id="subtotal">R$ 0,00</strong></p>
+            <p>Taxa de entrega: <strong id="taxaEntrega">R$ 0,00</strong></p>
+            <p class="total">Total: <strong id="total">R$ 0,00</strong></p>
+        </div>
+
+        <button class="btn-finalizar" onclick="irParaFinalizacao()">
+            Finalizar pedido
+        </button>
+        </section>
+
+    </main>
+
+    <div id="modalConfirmacao" class="modal escondido">
+        <div class="modal-conteudo">
+        <h2>Confirmar pedido</h2>
+
+        <div id="resumoPedido"></div>
+
+        <div class="modal-botoes">
+            <button class="btn-confirmar" onclick="enviarWhatsApp()">Enviar pedido</button>
+            <button class="btn-cancelar" onclick="fecharModal()">Cancelar</button>
+        </div>
+        </div>
+    </div>
+
+    <a class="whatsapp-fixo" href="https://wa.me/5585991376278" target="_blank">
+        ☎
+    </a>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

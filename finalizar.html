@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Finalizar Pedido - Lanche da Carla</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <header class="topo">
+    <div class="topo-conteudo">
+      <p class="subtitulo">Lanche da Carla</p>
+      <h1>Finalizar Pedido</h1>
+      <p class="descricao">Confira seus itens e informe seus dados</p>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="carrinho-area">
+      <h2>Resumo do pedido</h2>
+
+      <div id="resumoCarrinhoFinal"></div>
+
+      <div class="resumo-carrinho">
+        <p>Subtotal: <strong id="subtotalFinal">R$ 0,00</strong></p>
+        <p>Taxa de entrega: <strong id="taxaFinal">R$ 0,00</strong></p>
+        <p class="total">Total: <strong id="totalFinal">R$ 0,00</strong></p>
+      </div>
+
+      <button class="btn-cancelar" onclick="voltarCardapio()">
+        Voltar para o cardápio
+      </button>
+    </section>
+
+    <section class="dados-cliente">
+      <h2>Identificação do cliente</h2>
+
+      <div class="tipo-cadastro">
+        <button type="button" onclick="mostrarBuscaCadastro()">Já tenho cadastro</button>
+        <button type="button" onclick="mostrarNovoCadastro()">Novo cadastro</button>
+      </div>
+
+      <div id="areaBuscaCadastro" class="area-cadastro escondido">
+        <label for="telefoneBusca">Telefone</label>
+
+        <div class="campo-telefone">
+          <input type="tel" id="telefoneBusca" placeholder="Ex: 85991376278" />
+          <button type="button" onclick="buscarCliente()">Buscar</button>
+        </div>
+
+        <p id="mensagemCliente" class="mensagem-cliente"></p>
+      </div>
+
+      <div id="areaDadosCliente" class="area-cadastro escondido">
+        <label for="telefone">Telefone</label>
+        <input type="tel" id="telefone" placeholder="Ex: 85991376278" />
+
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" placeholder="Digite seu nome" />
+
+        <label for="endereco">Endereço</label>
+        <input type="text" id="endereco" placeholder="Rua, número e referência" />
+
+        <label for="pagamento">Forma de pagamento</label>
+        <select id="pagamento">
+          <option value="">Selecione</option>
+          <option value="Pix">Pix</option>
+          <option value="Dinheiro">Dinheiro</option>
+          <option value="Cartão">Cartão</option>
+        </select>
+
+        <label for="observacao">Observação</label>
+        <textarea id="observacao" placeholder="Ex: sem cebola, troco para R$ 50,00..."></textarea>
+
+        <button class="btn-confirmar" onclick="mostrarConfirmacao()">
+          Confirmar pedido
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="modalConfirmacao" class="modal escondido">
+    <div class="modal-conteudo">
+      <h2>Confirmar pedido</h2>
+
+      <div id="resumoPedido"></div>
+
+      <div class="modal-botoes">
+        <button class="btn-confirmar" onclick="enviarWhatsApp()">Enviar pedido</button>
+        <button class="btn-cancelar" onclick="fecharModal()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/finalizar.js"></script>
+</body>
+</html>
