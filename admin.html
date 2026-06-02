@@ -35,34 +35,84 @@
 
     <section id="painelAdmin" class="admin-area escondido">
 <div class="admin-cabecalho">
-    <h2>Pedidos recebidos</h2>
+  <h2 id="tituloAdmin">Pedidos recebidos</h2>
 
-    <div class="admin-botoes">
-        <button class="btn-atualizar" onclick="carregarPedidos()">
-            Atualizar
-        </button>
+  <div class="admin-botoes">
+    <button class="btn-atualizar" onclick="atualizarAbaAtual()">
+      Atualizar
+    </button>
 
-        <button class="btn-sair-admin" onclick="sairAdmin()">
-            Sair
-        </button>
-    </div>
+    <button class="btn-sair-admin" onclick="sairAdmin()">
+      Sair
+    </button>
+  </div>
 </div>
 
+<div class="abas-admin">
+  <button onclick="mostrarAbaPedidos()">Pedidos</button>
+  <button onclick="mostrarAbaProdutos()">Produtos</button>
+</div>
+
+    <div id="abaPedidos">
       <p id="mensagemAdmin" class="mensagem-cliente">
         Carregando pedidos...
       </p>
 
-        <div class="filtros-status">
-            <button onclick="filtrarPedidos('Todos')">Todos</button>
-            <button onclick="filtrarPedidos('Novo')">Novos</button>
-            <button onclick="filtrarPedidos('Preparando')">Preparando</button>
-            <button onclick="filtrarPedidos('Saiu para entrega')">Entrega</button>
-            <button onclick="filtrarPedidos('Concluído')">Concluídos</button>
-            <button onclick="filtrarPedidos('Cancelado')">Cancelados</button>
-        </div>
+      <div class="filtros-status">
+        <button onclick="filtrarPedidos('Todos')">Todos</button>
+        <button onclick="filtrarPedidos('Novo')">Novos</button>
+        <button onclick="filtrarPedidos('Preparando')">Preparando</button>
+        <button onclick="filtrarPedidos('Saiu para entrega')">Entrega</button>
+        <button onclick="filtrarPedidos('Concluído')">Concluídos</button>
+        <button onclick="filtrarPedidos('Cancelado')">Cancelados</button>
+      </div>
 
       <div id="listaPedidosAdmin" class="lista-pedidos-admin"></div>
-    </section>
+    </div>
+
+    <div id="abaProdutos" class="escondido">
+      <p id="mensagemProdutos" class="mensagem-cliente"></p>
+
+      <div class="form-produto-admin">
+        <h3>Cadastrar ou editar produto</h3>
+
+        <input type="hidden" id="produtoId" />
+
+        <label for="produtoNome">Nome do produto</label>
+        <input type="text" id="produtoNome" placeholder="Ex: Pastel queijo" />
+
+        <label for="produtoCategoria">Categoria</label>
+        <select id="produtoCategoria">
+          <option value="pasteis">Pastéis</option>
+          <option value="pratinhos">Pratinhos</option>
+          <option value="bebidas">Bebidas</option>
+        </select>
+
+        <label for="produtoDescricao">Descrição</label>
+        <input type="text" id="produtoDescricao" placeholder="Ex: Pastel tradicional de queijo" />
+
+        <label for="produtoPreco">Preço</label>
+        <input type="number" step="0.01" id="produtoPreco" placeholder="Ex: 6.00" />
+
+        <label for="produtoAtivo">Produto ativo?</label>
+        <select id="produtoAtivo">
+          <option value="sim">Sim</option>
+          <option value="não">Não</option>
+        </select>
+
+        <button class="btn-confirmar" onclick="salvarProdutoAdmin()">
+          Salvar produto
+        </button>
+
+        <button class="btn-cancelar" onclick="limparFormularioProduto()">
+          Limpar formulário
+        </button>
+      </div>
+
+      <h3 class="titulo-lista-produtos">Produtos cadastrados</h3>
+
+      <div id="listaProdutosAdmin" class="lista-produtos-admin"></div>
+    </div>
 
   </main>
 

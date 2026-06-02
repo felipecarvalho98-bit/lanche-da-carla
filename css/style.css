@@ -643,3 +643,94 @@ body {
   font-weight: bold;
   cursor: pointer;
 }
+
+.abas-admin {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 12px 0 16px;
+}
+
+.abas-admin button {
+  border: none;
+  background: var(--vermelho);
+  color: var(--branco);
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.form-produto-admin {
+  background: var(--cinza);
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 18px;
+  border-left: 6px solid var(--vermelho);
+}
+
+.form-produto-admin h3 {
+  margin-top: 0;
+  color: var(--vermelho);
+}
+
+.form-produto-admin label {
+  display: block;
+  margin: 12px 0 5px;
+  font-weight: bold;
+}
+
+.form-produto-admin input,
+.form-produto-admin select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+.form-produto-admin .btn-confirmar,
+.form-produto-admin .btn-cancelar {
+  margin-top: 12px;
+}
+
+.titulo-lista-produtos {
+  color: var(--vermelho);
+  margin-top: 20px;
+}
+
+.lista-produtos-admin {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.produto-admin-card {
+  background: var(--cinza);
+  border-left: 6px solid var(--vermelho);
+  border-radius: 14px;
+  padding: 12px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+}
+
+.produto-admin-card h3 {
+  margin: 0 0 8px;
+  color: var(--vermelho);
+}
+
+.produto-admin-card p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.btn-editar-produto {
+  width: 100%;
+  border: none;
+  background: var(--vermelho);
+  color: var(--branco);
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}

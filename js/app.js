@@ -1,147 +1,7 @@
 const telefoneLancheCarla = "5585991376278";
+const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbySVkmJpv2rMkfXvwx8Cxsi_ZRsE2Fd1nCEURnBPiXn3Jy8tKVTT6vj1eB9jU1Gcl9M/exec";
 
-const produtos = [
-  {
-    id: 1,
-    nome: "Pastel queijo",
-    categoria: "pasteis",
-    descricao: "Pastel tradicional de queijo",
-    preco: 6.00
-  },
-  {
-    id: 2,
-    nome: "Pastel misto",
-    categoria: "pasteis",
-    descricao: "Pastel de misto",
-    preco: 6.00
-  },
-  {
-    id: 3,
-    nome: "Pastel carne",
-    categoria: "pasteis",
-    descricao: "Pastel de carne",
-    preco: 7.00
-  },
-  {
-    id: 4,
-    nome: "Pastel carne/queijo",
-    categoria: "pasteis",
-    descricao: "Pastel de carne com queijo",
-    preco: 8.00
-  },
-  {
-    id: 5,
-    nome: "Pastel frango",
-    categoria: "pasteis",
-    descricao: "Pastel de frango",
-    preco: 7.00
-  },
-  {
-    id: 6,
-    nome: "Pastel frango/queijo",
-    categoria: "pasteis",
-    descricao: "Pastel de frango com queijo",
-    preco: 8.00
-  },
-  {
-    id: 7,
-    nome: "Pastel calabresa",
-    categoria: "pasteis",
-    descricao: "Pastel de calabresa",
-    preco: 7.00
-  },
-  {
-    id: 8,
-    nome: "Pastel fran/calabresa",
-    categoria: "pasteis",
-    descricao: "Pastel de frango com calabresa",
-    preco: 8.00
-  },
-  {
-    id: 9,
-    nome: "Pastel calabresa/queijo",
-    categoria: "pasteis",
-    descricao: "Pastel de calabresa com queijo",
-    preco: 8.00
-  },
-  {
-    id: 10,
-    nome: "Pastel mistão",
-    categoria: "pasteis",
-    descricao: "Pastel especial mistão",
-    preco: 15.00
-  },
-  {
-    id: 11,
-    nome: "Batata M",
-    categoria: "pasteis",
-    descricao: "Batata tamanho médio",
-    preco: 8.00
-  },
-  {
-    id: 12,
-    nome: "Batata G",
-    categoria: "pasteis",
-    descricao: "Batata tamanho grande",
-    preco: 10.00
-  },
-  {
-    id: 13,
-    nome: "Creme galinha M",
-    categoria: "pratinhos",
-    descricao: "Creme de galinha médio",
-    preco: 12.00
-  },
-  {
-    id: 14,
-    nome: "Creme galinha G",
-    categoria: "pratinhos",
-    descricao: "Creme de galinha grande",
-    preco: 15.00
-  },
-  {
-    id: 15,
-    nome: "Caldo carne moída",
-    categoria: "pratinhos",
-    descricao: "Caldo de carne moída",
-    preco: 5.00
-  },
-  {
-    id: 16,
-    nome: "Coca lata",
-    categoria: "bebidas",
-    descricao: "Refrigerante lata",
-    preco: 4.00
-  },
-  {
-    id: 17,
-    nome: "Coca pequena",
-    categoria: "bebidas",
-    descricao: "Coca-Cola pequena",
-    preco: 3.50
-  },
-  {
-    id: 18,
-    nome: "Coca 600",
-    categoria: "bebidas",
-    descricao: "Coca-Cola 600ml",
-    preco: 7.00
-  },
-  {
-    id: 19,
-    nome: "Refri",
-    categoria: "bebidas",
-    descricao: "Refrigerante",
-    preco: 2.50
-  },
-  {
-    id: 20,
-    nome: "Suco",
-    categoria: "bebidas",
-    descricao: "Suco",
-    preco: 3.50
-  }
-];
+let produtos = [];
 
 let carrinho = [];
 
@@ -406,5 +266,27 @@ function irParaFinalizacao() {
   window.location.href = "finalizar.html";
 }
 
-carregarProdutos();
+async function buscarProdutosDaPlanilha() {
+  const listaProdutos = document.getElementById("listaProdutos");
+
+  listaProdutos.innerHTML = "<p>Carregando produtos...</p>";
+
+  try {
+    const resposta = await fetch(`${URL_APPS_SCRIPT}?acao=listarProdutos`);
+    const dados = await resposta.json();
+
+    if (dados.sucesso && dados.produtos.length > 0) {
+      produtos = dados.produtos;
+      carregarProdutos();
+    } else {
+      listaProdutos.innerHTML = "<p>Nenhum produto encontrado.</p>";
+    }
+
+  } catch (erro) {
+    console.error("Erro ao buscar produtos:", erro);
+    listaProdutos.innerHTML = "<p>Erro ao carregar produtos. Verifique a conexão.</p>";
+  }
+}
+
+buscarProdutosDaPlanilha();
 atualizarCarrinho();

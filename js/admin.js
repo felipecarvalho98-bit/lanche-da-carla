@@ -3,6 +3,8 @@ const SENHA_ADMIN = "1234";
 
 let pedidosCarregados = [];
 let filtroAtual = "Todos";
+let abaAtual = "pedidos";
+let produtosAdmin = [];
 
 function formatarMoeda(valor) {
   const numero = Number(valor) || 0;
@@ -39,6 +41,161 @@ function entrarAdmin() {
   } else {
     mensagemLogin.textContent = "Senha incorreta.";
   }
+}
+
+function mostrarAbaPedidos() {
+  abaAtual = "pedidos";
+
+  document.getElementById("tituloAdmin").textContent = "Pedidos recebidos";
+  document.getElementById("abaPedidos").classList.remove("escondido");
+  document.getElementById("abaProdutos").classList.add("escondido");
+
+  carregarPedidos();
+}
+
+function mostrarAbaProdutos() {
+  abaAtual = "produtos";
+
+  document.getElementById("tituloAdmin").textContent = "Produtos cadastrados";
+  document.getElementById("abaPedidos").classList.add("escondido");
+  document.getElementById("abaProdutos").classList.remove("escondido");
+
+  carregarProdutosAdmin();
+}
+
+function atualizarAbaAtual() {
+  if (abaAtual === "pedidos") {
+    carregarPedidos();
+  } else {
+    carregarProdutosAdmin();
+  }
+}
+
+async function carregarProdutosAdmin() {
+  const lista = document.getElementById("listaProdutosAdmin");
+  const mensagem = document.getElementById("mensagemProdutos");
+
+  lista.innerHTML = "";
+  mensagem.textContent = "Carregando produtos...";
+
+  try {
+    const resposta = await fetch(`${URL_APPS_SCRIPT}?acao=listarProdutosAdmin`);
+    const dados = await resposta.json();
+
+    if (!dados.sucesso) {
+      mensagem.textContent = "Erro ao carregar produtos.";
+      return;
+    }
+
+    produtosAdmin = dados.produtos || [];
+
+    if (produtosAdmin.length === 0) {
+      mensagem.textContent = "Nenhum produto cadastrado.";
+      return;
+    }
+
+    mensagem.textContent = "";
+
+    produtosAdmin.forEach(produto => {
+      const card = document.createElement("div");
+      card.className = "produto-admin-card";
+
+      card.innerHTML = `
+        <div>
+          <h3>${produto.nome}</h3>
+          <p><strong>Categoria:</strong> ${produto.categoria}</p>
+          <p><strong>Descrição:</strong> ${produto.descricao}</p>
+          <p><strong>Preço:</strong> ${formatarMoeda(produto.preco)}</p>
+          <p><strong>Ativo:</strong> ${produto.ativo}</p>
+        </div>
+
+        <button class="btn-editar-produto" onclick="editarProdutoAdmin('${produto.id}')">
+          Editar
+        </button>
+      `;
+
+      lista.appendChild(card);
+    });
+
+  } catch (erro) {
+    console.error("Erro ao carregar produtos:", erro);
+    mensagem.textContent = "Erro ao carregar produtos. Verifique a conexão.";
+  }
+}
+
+function editarProdutoAdmin(idProduto) {
+  const produto = produtosAdmin.find(item => String(item.id) === String(idProduto));
+
+  if (!produto) {
+    alert("Produto não encontrado.");
+    return;
+  }
+
+  document.getElementById("produtoId").value = produto.id;
+  document.getElementById("produtoNome").value = produto.nome;
+  document.getElementById("produtoCategoria").value = produto.categoria;
+  document.getElementById("produtoDescricao").value = produto.descricao;
+  document.getElementById("produtoPreco").value = produto.preco;
+  document.getElementById("produtoAtivo").value = produto.ativo;
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+async function salvarProdutoAdmin() {
+  const id = document.getElementById("produtoId").value.trim();
+  const nome = document.getElementById("produtoNome").value.trim();
+  const categoria = document.getElementById("produtoCategoria").value;
+  const descricao = document.getElementById("produtoDescricao").value.trim();
+  const preco = document.getElementById("produtoPreco").value;
+  const ativo = document.getElementById("produtoAtivo").value;
+
+  if (!nome || !categoria || !descricao || !preco) {
+    alert("Preencha nome, categoria, descrição e preço.");
+    return;
+  }
+
+  const produto = {
+    acao: "salvarProduto",
+    id: id,
+    nome: nome,
+    categoria: categoria,
+    descricao: descricao,
+    preco: Number(preco),
+    ativo: ativo
+  };
+
+  try {
+    const resposta = await fetch(URL_APPS_SCRIPT, {
+      method: "POST",
+      body: JSON.stringify(produto)
+    });
+
+    const dados = await resposta.json();
+
+    if (dados.sucesso) {
+      alert(dados.mensagem);
+      limparFormularioProduto();
+      carregarProdutosAdmin();
+    } else {
+      alert("Erro ao salvar produto.");
+    }
+
+  } catch (erro) {
+    console.error("Erro ao salvar produto:", erro);
+    alert("Erro ao salvar produto. Verifique a conexão.");
+  }
+}
+
+function limparFormularioProduto() {
+  document.getElementById("produtoId").value = "";
+  document.getElementById("produtoNome").value = "";
+  document.getElementById("produtoCategoria").value = "pasteis";
+  document.getElementById("produtoDescricao").value = "";
+  document.getElementById("produtoPreco").value = "";
+  document.getElementById("produtoAtivo").value = "sim";
 }
 
 function verificarLoginAdmin() {
