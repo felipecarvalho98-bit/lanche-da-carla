@@ -58,6 +58,16 @@
         Carregando pedidos...
       </p>
 
+      <div class="modos-pedidos">
+        <button id="btnFilaHoje" class="ativo" onclick="mostrarFilaHoje()">
+          Fila de hoje
+        </button>
+
+        <button id="btnHistorico" onclick="mostrarHistoricoPedidos()">
+          Pedidos anteriores
+        </button>
+      </div>
+
       <div class="filtros-status">
         <button onclick="filtrarPedidos('Todos')">Todos</button>
         <button onclick="filtrarPedidos('Novo')">Novos</button>

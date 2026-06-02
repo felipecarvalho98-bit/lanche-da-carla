@@ -3,6 +3,7 @@ const SENHA_ADMIN = "1234";
 
 let pedidosCarregados = [];
 let filtroAtual = "Todos";
+let modoPedidos = "hoje";
 let abaAtual = "pedidos";
 let produtosAdmin = [];
 
@@ -230,7 +231,7 @@ async function carregarPedidos() {
       return;
     }
 
-    pedidosCarregados = dados.pedidos.reverse();
+    pedidosCarregados = dados.pedidos;
 
     mostrarPedidosNaTela();
 
@@ -246,14 +247,43 @@ function mostrarPedidosNaTela() {
 
   lista.innerHTML = "";
 
-  let pedidosFiltrados = pedidosCarregados;
+  let pedidosFiltrados = [];
+
+  if (modoPedidos === "hoje") {
+    pedidosFiltrados = pedidosCarregados.filter(pedido => {
+      return ehPedidoDeHoje(pedido.dataHora) &&
+        pedido.status !== "Concluído" &&
+        pedido.status !== "Cancelado";
+    });
+
+    // Fila de hoje em ordem de chegada
+    pedidosFiltrados.sort((a, b) => {
+      return new Date(a.dataHora) - new Date(b.dataHora);
+    });
+
+  } else {
+    pedidosFiltrados = pedidosCarregados.filter(pedido => {
+      return !ehPedidoDeHoje(pedido.dataHora) ||
+        pedido.status === "Concluído" ||
+        pedido.status === "Cancelado";
+    });
+
+    // Histórico mostra os mais recentes primeiro
+    pedidosFiltrados.sort((a, b) => {
+      return new Date(b.dataHora) - new Date(a.dataHora);
+    });
+  }
 
   if (filtroAtual !== "Todos") {
-    pedidosFiltrados = pedidosCarregados.filter(pedido => pedido.status === filtroAtual);
+    pedidosFiltrados = pedidosFiltrados.filter(pedido => pedido.status === filtroAtual);
   }
 
   if (pedidosFiltrados.length === 0) {
-    mensagem.textContent = "Nenhum pedido encontrado para este filtro.";
+    if (modoPedidos === "hoje") {
+      mensagem.textContent = "Nenhum pedido na fila de hoje.";
+    } else {
+      mensagem.textContent = "Nenhum pedido encontrado no histórico.";
+    }
     return;
   }
 
@@ -348,7 +378,12 @@ async function alterarStatusPedido(idPedido, novoStatus) {
     const dados = await resposta.json();
 
     if (dados.sucesso) {
-      alert("Status alterado com sucesso!");
+      if (novoStatus === "Concluído" || novoStatus === "Cancelado") {
+        alert("Status alterado! O pedido saiu da fila de hoje e foi para o histórico.");
+      } else {
+        alert("Status alterado com sucesso!");
+      }
+
       carregarPedidos();
     } else {
       alert("Erro ao alterar status.");
@@ -399,6 +434,42 @@ function sairAdmin() {
   document.getElementById("mensagemLogin").textContent = "";
 
   document.getElementById("senhaAdmin").focus();
+}
+
+function ehPedidoDeHoje(dataRecebida) {
+  if (!dataRecebida) return false;
+
+  const dataPedido = new Date(dataRecebida);
+
+  if (isNaN(dataPedido.getTime())) {
+    return false;
+  }
+
+  const hoje = new Date();
+
+  return dataPedido.getDate() === hoje.getDate() &&
+    dataPedido.getMonth() === hoje.getMonth() &&
+    dataPedido.getFullYear() === hoje.getFullYear();
+}
+
+function mostrarFilaHoje() {
+  modoPedidos = "hoje";
+  filtroAtual = "Todos";
+
+  document.getElementById("btnFilaHoje").classList.add("ativo");
+  document.getElementById("btnHistorico").classList.remove("ativo");
+
+  mostrarPedidosNaTela();
+}
+
+function mostrarHistoricoPedidos() {
+  modoPedidos = "historico";
+  filtroAtual = "Todos";
+
+  document.getElementById("btnHistorico").classList.add("ativo");
+  document.getElementById("btnFilaHoje").classList.remove("ativo");
+
+  mostrarPedidosNaTela();
 }
 
 verificarLoginAdmin();

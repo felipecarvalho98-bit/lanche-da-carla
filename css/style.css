@@ -739,3 +739,25 @@ button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+.modos-pedidos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.modos-pedidos button {
+  border: 2px solid var(--vermelho);
+  background: var(--branco);
+  color: var(--vermelho);
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.modos-pedidos button.ativo {
+  background: var(--vermelho);
+  color: var(--branco);
+}
