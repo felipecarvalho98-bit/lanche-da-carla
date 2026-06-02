@@ -761,3 +761,53 @@ button:disabled {
   background: var(--vermelho);
   color: var(--branco);
 }
+
+.info-loja {
+  background: var(--branco);
+  border-radius: 18px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.14);
+  border-left: 6px solid var(--vermelho);
+}
+
+.info-loja h2 {
+  margin: 0 0 6px;
+  color: var(--vermelho);
+  font-size: 22px;
+  text-align: center;
+}
+
+.info-status {
+  margin: 0 0 14px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.info-status.aberta {
+  color: #009b4d;
+}
+
+.info-status.fechada {
+  color: #c40000;
+}
+
+.info-item {
+  background: var(--cinza);
+  border-radius: 12px;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.info-item strong {
+  display: block;
+  color: var(--vermelho);
+  margin-bottom: 4px;
+}
+
+.info-item span {
+  display: block;
+  font-size: 14px;
+  color: #222;
+  line-height: 1.4;
+}

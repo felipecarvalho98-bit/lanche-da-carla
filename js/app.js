@@ -288,5 +288,43 @@ async function buscarProdutosDaPlanilha() {
   }
 }
 
+function verificarStatusLoja() {
+  const statusLoja = document.getElementById("statusLoja");
+
+  if (!statusLoja) return;
+
+  const agora = new Date();
+  const diaSemana = agora.getDay();
+  const hora = agora.getHours();
+  const minutos = agora.getMinutes();
+
+  // getDay():
+  // 0 = domingo
+  // 1 = segunda
+  // 2 = terça
+  // 3 = quarta
+  // 4 = quinta
+  // 5 = sexta
+  // 6 = sábado
+
+  const abre = 18 * 60; // 18:00
+  const fecha = 23 * 60; // 23:00
+  const horarioAtual = hora * 60 + minutos;
+
+  const funcionaHoje = diaSemana !== 1; // fecha na segunda
+  const dentroDoHorario = horarioAtual >= abre && horarioAtual < fecha;
+
+  if (funcionaHoje && dentroDoHorario) {
+    statusLoja.textContent = "Aberta agora";
+    statusLoja.classList.remove("fechada");
+    statusLoja.classList.add("aberta");
+  } else {
+    statusLoja.textContent = "Fechada agora";
+    statusLoja.classList.remove("aberta");
+    statusLoja.classList.add("fechada");
+  }
+}
+
+verificarStatusLoja();
 buscarProdutosDaPlanilha();
 atualizarCarrinho();
