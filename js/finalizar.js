@@ -2,6 +2,7 @@ const telefoneLancheCarla = "5585991376278";
 const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbySVkmJpv2rMkfXvwx8Cxsi_ZRsE2Fd1nCEURnBPiXn3Jy8tKVTT6vj1eB9jU1Gcl9M/exec";
 
 let carrinhoFinal = [];
+let pedidoEnviando = false;
 
 function formatarMoeda(valor) {
   return valor.toLocaleString("pt-BR", {
@@ -178,6 +179,16 @@ function fecharModal() {
 }
 
 async function enviarWhatsApp() {
+  if (pedidoEnviando) {
+    return;
+  }
+
+  pedidoEnviando = true;
+
+  const botaoEnviar = document.getElementById("btnEnviarPedido");
+  botaoEnviar.disabled = true;
+  botaoEnviar.textContent = "Enviando pedido...";
+
   const telefoneCliente = document.getElementById("telefone").value.trim();
   const nome = document.getElementById("nome").value.trim();
   const endereco = document.getElementById("endereco").value.trim();
@@ -227,6 +238,11 @@ async function enviarWhatsApp() {
 
     if (!resultadoPedido.sucesso) {
       alert("Erro ao salvar pedido na planilha.");
+
+      pedidoEnviando = false;
+      botaoEnviar.disabled = false;
+      botaoEnviar.textContent = "Enviar pedido";
+
       return;
     }
 
@@ -251,12 +267,22 @@ ${itensTexto}
 
     localStorage.removeItem("carrinhoLancheCarla");
 
+    botaoEnviar.textContent = "Pedido enviado";
+
     const url = `https://wa.me/${telefoneLancheCarla}?text=${encodeURIComponent(mensagem)}`;
     window.open(url, "_blank");
+
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 1200);
 
   } catch (erro) {
     console.error("Erro ao salvar pedido:", erro);
     alert("Erro ao salvar pedido. Verifique a conexão ou a URL do Apps Script.");
+
+    pedidoEnviando = false;
+    botaoEnviar.disabled = false;
+    botaoEnviar.textContent = "Enviar pedido";
   }
 }
 
